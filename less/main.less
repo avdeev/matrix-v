@@ -1,0 +1,52 @@
+@cell-size: 40px;
+@block-size: (@cell-size + 11) * 3;
+@play-field-size: (@block-size + 2) * 3;
+@cell-border: 1px gray solid;
+@block-border: 2px gray solid;
+@play-field-border: 3px gray solid;
+#play-field {
+  width: @play-field-size;
+  height: @play-field-size;
+  border-left: @play-field-border;
+  border-top: @play-field-border;
+  position: relative;
+  left: 50%;
+  margin-left: -(@play-field-size / 2);
+  .row {
+    margin: 0;
+  }
+  .block {
+    width: @block-size;
+    height: @block-size;
+    border-bottom: @block-border;
+    border-right: @block-border;
+    float: left;
+    .cell {
+      border-bottom: @cell-border;
+      border-right: @cell-border;
+      float: left;
+      margin: 0;
+      padding: 5px;
+      width: @cell-size;
+      height: @cell-size;
+      input {
+        width: @cell-size - 14;
+        height: @cell-size - 10;
+        font-size: 32px;
+        padding-left: 10px;
+        padding-right: 2px;
+      }
+    }  
+  }
+}
+
+.controls {
+  text-align: center;
+  button {
+    margin-bottom: 10px;
+  }
+}
+
+.statistics {
+  text-align: center;
+}

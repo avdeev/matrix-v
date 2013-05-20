@@ -1,0 +1,1 @@
+<? // echo $this->renderPartial('//shared/play-field'); ?>
