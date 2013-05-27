@@ -1,7 +1,7 @@
 <?php
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'V-Lab: Подобие матриц',
+	'name'=>'Подобие матриц',
 
 	// preloading 'log' component
 	'preload'=>array('log', 'less'),
@@ -18,7 +18,6 @@ return array(
 			'password'=>'qwerty123',
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
-		
 	),
 
 	// application components
