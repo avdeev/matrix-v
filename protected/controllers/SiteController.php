@@ -1,7 +1,7 @@
 <?php
 class SiteController extends Controller
 {
-	public $layout = '//layouts/column2';
+	public $layout = '//layouts/column1';
 
 	public function actionIndex()
 	{
@@ -10,7 +10,6 @@ class SiteController extends Controller
 
 	public function actionError()
 	{
-		$this->layout = 'column1';
 		if($error=Yii::app()->errorHandler->error)
 		{
 			if(Yii::app()->request->isAjaxRequest)
