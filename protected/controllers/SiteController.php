@@ -5,7 +5,8 @@ class SiteController extends Controller
 
 	public function actionIndex()
 	{
-		$this->render('index');
+		$matrixSize = isset($_GET['matrixSize']) ? intval($_GET['matrixSize']) : 3;
+		$this->render('index', array('matrixSize' => $matrixSize));
 	}
 
 	public function actionError()
