@@ -37,9 +37,9 @@
           <a class="brand" href="/"><?php echo CHtml::encode(Yii::app()->name); ?></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="/">Ручной ввод</a></li>
-              <li><a href="/play">Ввод из файла</a></li>
-              <li><a href="/tests">Тесты</a></li>
+              <li class="<?=$this->id == 'site' ? 'active' : ''?>"><a href="/">Ручной ввод</a></li>
+              <li class="<?=$this->id == 'file' ? 'active' : ''?>"><a href="/file">Ввод из файла</a></li>
+              <li class="<?=$this->id == 'tests' ? 'active' : ''?>"><a href="/tests">Тесты</a></li>
             </ul>
           </div>
         </div>
@@ -53,7 +53,6 @@
     <script src="/js/sylvester.src.js"></script>
     <script src="/js/plugins.js"></script>
     <script src="/js/bootstrap.js"></script>
-    <script src="/js/main.js"></script>
     <script src="/js/main.js"></script>
   </body>
 </html>
