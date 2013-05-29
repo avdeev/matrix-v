@@ -1,4 +1,4 @@
-<div class="matrix" style="width: <?=$matrixSize * 52?>px;">
+<div class="matrix" data-id="<?=$id?>" style="width: <?=$matrixSize * 52?>px;" data-size="<?=$matrixSize?>">
   <?
   for ($y = 0; $y < $matrixSize; $y++) {
     for ($x = 0; $x < $matrixSize; $x++) {

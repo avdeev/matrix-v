@@ -10,7 +10,5 @@
 .matrix .cell input {
   width:26px;
   height:30px;
-  font-size:32px;
-  padding-left:10px;
-  padding-right:2px;
+  font-size:14px;
 }
