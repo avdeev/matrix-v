@@ -15,20 +15,24 @@ $(function() {
         matrixArr[y] = [];
         for (var x = 0; x < size; x++) {
           matrixArr[y][x] = parseFloat($matrix.find('.y-' + y + '.x-' + x + ' input').val());
+          if (x == y) {
+            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x], -1]);
+            console.log(matrixArr[y][x].toString());
+          }
         }
       }
 
-      M[id] = $M(matrixArr);
-      MDiag[id] = M[id].toRightTriangular().transpose().toRightTriangular().transpose();
+      M[id] = new MathLib.Matrix(matrixArr);
+      MDiag[id] = M[id].rref();
 
       $('.js-result').append($('<pre>', {
-        text: MDiag[id].inspect()
+        text: MDiag[id].toString()
       }));
     });
 
-    $('.js-result').append($('<h4>', {
-      text: MDiag[0].eql(MDiag[1]) ? 'Матрицы подобны' : 'Матрицы не подобны'
-    }));
+    // $('.js-result').append($('<h4>', {
+    //   text: MDiag[0].eql(MDiag[1]) ? 'Матрицы подобны' : 'Матрицы не подобны'
+    // }));
 
   });
 
