@@ -49,10 +49,10 @@
     <?php echo $content; ?>
 
     <script src="/js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="/js/sylvester.src.js"></script>
     <script src="/js/MathLib.js"></script>
     <script src="/js/plugins.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/tests.js"></script>
   </body>
 </html>

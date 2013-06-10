@@ -4543,11 +4543,13 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 		Matrix.prototype.rref = function () {
 			var i, ii, j, jj, k, kk, pivot, factor, swap, lead = 0, rref = this.toArray();
 			for (i = 0 , ii = this.rows; i < ii; i++) {
+				matrixCompared++;
 				if (this.cols <= lead) {
 					return new MathLib.Matrix(rref);
 				}
 				j = i;
 				while (rref[j][lead] === 0) {
+					matrixCompared++;
 					j++;
 					if (this.rows === j) {
 						j = i;
@@ -4564,7 +4566,13 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 				}
 				pivot = rref[i][lead];
 				for (j = lead , jj = this.cols; j < jj; j++) {
-					rref[i][j] /= pivot;
+					matrixCompared++;
+					if (typeof rref[i][j].times != 'undefined') {
+						rref[i][j].times(1 / pivot);
+					} else {
+						rref[i][j].times /= pivot;
+					}
+					
 				}
 				for (j = 0 , jj = this.rows; j < jj; j++) {
 					if (j === i) {
@@ -4572,6 +4580,7 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 					}
 					factor = rref[j][lead];
 					for (k = 0 , kk = this.cols; k < kk; k++) {
+						matrixCompared++;
 						rref[j][k] = MathLib.minus(rref[j][k], MathLib.times(factor, rref[i][k]));
 					}
 				}

@@ -16,8 +16,7 @@ $(function() {
         for (var x = 0; x < size; x++) {
           matrixArr[y][x] = parseFloat($matrix.find('.y-' + y + '.x-' + x + ' input').val());
           if (x == y) {
-            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x], -1]);
-            console.log(matrixArr[y][x].toString());
+            matrixArr[y][x] = new MathLib.Complex(matrixArr[y][x], -1);
           }
         }
       }
@@ -30,9 +29,9 @@ $(function() {
       }));
     });
 
-    // $('.js-result').append($('<h4>', {
-    //   text: MDiag[0].eql(MDiag[1]) ? 'Матрицы подобны' : 'Матрицы не подобны'
-    // }));
+    $('.js-result').append($('<h4>', {
+      text: MDiag[0].trace() == MDiag[1].trace() ? 'Матрицы подобны' : 'Матрицы не подобны'
+    }));
 
   });
 
