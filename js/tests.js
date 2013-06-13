@@ -22,22 +22,26 @@ $(function() {
         for (var y = 0; y < matrixDim; y++) {
           for (var x = 0; x < matrixDim; x++) {
             if (x == y) {
-              matrix[j][y][x] = new MathLib.Complex(matrix[j][y][x], -1);
+              matrix[j][y][x] = new MathLib.Polynomial([matrix[j][y][x], -1]);
+            } else if (x != y) {
+              matrix[j][y][x] = new MathLib.Polynomial([matrix[j][y][x]]);
             }
           }
         }
 
+        console.log(matrixMath);
+
         matrixMath[j] = new MathLib.Matrix(matrix[j]);
         matrixMathDiag[j] = matrixMath[j].rref();
 
-        // $('.js-result').append($('<pre>', {
-        //   text: matrixMathDiag[j].toString()
-        // }));
+        $('.js-result').append($('<pre>', {
+          text: matrixMathDiag[j].toString()
+        }));
   
       }
 
       $('.js-result').append($('<h4>', {
-        text: matrixMathDiag[0].diag().toString() == matrixMathDiag[1].diag().toString() ? 'Матрицы подобны' : 'Матрицы не подобны'
+        text: matrixMathDiag[0].toString() == matrixMathDiag[1].toString() ? 'Матрицы подобны' : 'Матрицы не подобны'
       }));
   
     }

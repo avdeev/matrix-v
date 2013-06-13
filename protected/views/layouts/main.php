@@ -49,6 +49,7 @@
     <?php echo $content; ?>
 
     <script src="/js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="/js/division.js"></script>
     <script src="/js/MathLib.js"></script>
     <script src="/js/plugins.js"></script>
     <script src="/js/bootstrap.js"></script>

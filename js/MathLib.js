@@ -1213,6 +1213,8 @@ var MathLib;
 				return x[name].apply(x, Array.prototype.slice.call(arguments, 1));
 			} else if (Array.isArray(x)) {
 				return x.map(f);
+			} else if (x.type === 'polynomial' && name === 'copy') {
+				return new MathLib.Polynomial(x.slice(0, x.deg + 1))
 			} else {
 				return x[name]();
 			}
@@ -4492,7 +4494,7 @@ for (i = 0 , ii = this.rows; i < ii; i++) {
 			var rank = 0, mat, i, ii, j;
 			mat = this.rref();
 			label:
-for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
+			for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 				for (j = this.cols - 1; j >= i; j--) {
 					if (!MathLib.isZero(mat[i][j])) {
 						rank = i + 1;
@@ -4548,7 +4550,7 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 					return new MathLib.Matrix(rref);
 				}
 				j = i;
-				while (rref[j][lead] === 0) {
+				while (rref[j][lead].deg == 0 && rref[j][lead][0] == 0) {
 					matrixCompared++;
 					j++;
 					if (this.rows === j) {
@@ -4567,12 +4569,10 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 				pivot = rref[i][lead];
 				for (j = lead , jj = this.cols; j < jj; j++) {
 					matrixCompared++;
-					if (typeof rref[i][j].times != 'undefined') {
-						rref[i][j].times(1 / pivot);
-					} else {
-						rref[i][j].times /= pivot;
-					}
-					
+					// TODO
+					console.log(pivot.toString());
+					console.log(longAlgebraicDivision('1', pivot.toString()));
+					rref[i][j].times(1 / pivot);
 				}
 				for (j = 0 , jj = this.rows; j < jj; j++) {
 					if (j === i) {
@@ -4581,7 +4581,7 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 					factor = rref[j][lead];
 					for (k = 0 , kk = this.cols; k < kk; k++) {
 						matrixCompared++;
-						rref[j][k] = MathLib.minus(rref[j][k], MathLib.times(factor, rref[i][k]));
+						rref[j][k] = rref[j][k].minus(MathLib.times(factor, rref[i][k]));
 					}
 				}
 				lead++;
@@ -5224,6 +5224,19 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 			}
 			return new MathLib.Polynomial(plus);
 		};
+		Polynomial.prototype.minus = function (a) {
+			var minus = [], i;
+			if (typeof a === 'number') {
+				minus = this.slice();
+				minus[0] = MathLib.minus(minus[0], a);
+			} else if (a.type === 'polynomial') {
+				for (i = 0; i <= Math.min(this.deg, a.deg); i++) {
+					minus[i] = MathLib.minus(this[i], a[i]);
+				}
+				minus = minus.concat((this.deg > a.deg ? this : a).slice(i));
+			}
+			return new MathLib.Polynomial(minus);
+		};
 		Polynomial.regression = function regression(x, y) {
 			var length = x.length, xy = 0, xi = 0, yi = 0, x2 = 0, m, c, i;
 			if (arguments.length === 2) {
@@ -5369,14 +5382,14 @@ for (i = Math.min(this.rows, this.cols) - 1; i >= 0; i--) {
 			return str;
 		};
 		Polynomial.prototype.toString = function (opt) {
-			var str = MathLib.toString(this[this.deg]) + '*x^' + this.deg, i;
+			var str = MathLib.toString(this[this.deg]) + '*h^' + this.deg, i;
 			for (i = this.deg - 1; i >= 0; i--) {
 				if (!MathLib.isZero(this[i])) {
 					str += MathLib.toString(this[i], true);
 					if (i > 1) {
-						str += '*x^' + MathLib.toString(i);
+						str += '*h^' + MathLib.toString(i);
 					} else if (i === 1) {
-						str += '*x';
+						str += '*h';
 					}
 				}
 			}
