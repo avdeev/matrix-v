@@ -30,9 +30,9 @@ $(function() {
         matrixMath[j] = new MathLib.Matrix(matrix[j]);
         matrixMathDiag[j] = matrixMath[j].rref();
 
-        $('.js-result').append($('<pre>', {
-          text: matrixMathDiag[j].toString()
-        }));
+        // $('.js-result').append($('<pre>', {
+        //   text: matrixMathDiag[j].toString()
+        // }));
   
       }
 

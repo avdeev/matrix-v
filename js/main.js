@@ -1,6 +1,8 @@
 'use strict';
 $(function() {
 
+  window.matrixCompared = 0;
+
   $('#js-matrix-check').on('click', function(){
     $('.js-result').empty();
 
@@ -24,13 +26,21 @@ $(function() {
       M[id] = new MathLib.Matrix(matrixArr);
       MDiag[id] = M[id].rref();
 
+      for (var y = 0; y < size; y++) {
+        for (var x = 0; x < size; x++) {
+          if (x != y) {
+            MDiag[id][y][x] = 0;
+          }
+        }
+      }
+
       $('.js-result').append($('<pre>', {
         text: MDiag[id].toString()
       }));
     });
 
     $('.js-result').append($('<h4>', {
-      text: MDiag[0].trace() == MDiag[1].trace() ? 'Матрицы подобны' : 'Матрицы не подобны'
+      text: MDiag[0].diag() == MDiag[1].diag() ? 'Матрицы подобны' : 'Матрицы не подобны'
     }));
 
   });
