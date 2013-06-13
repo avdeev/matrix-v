@@ -4542,6 +4542,14 @@ for (i = 0 , ii = this.rows; i < ii; i++) {
 			}
 			return new MathLib.Matrix(rest);
 		};
+		Matrix.prototype.rrefPoly = function () {
+			var i, ii, j, jj, k, kk, pivot, factor, swap, lead = 0, rref = this.toArray();
+			for (i = 0; i < this.rows; i++) {
+				for (j = 0; j < this.cols; j++) {
+
+				}
+			}
+		};
 		Matrix.prototype.rref = function () {
 			var i, ii, j, jj, k, kk, pivot, factor, swap, lead = 0, rref = this.toArray();
 			for (i = 0 , ii = this.rows; i < ii; i++) {
@@ -4570,9 +4578,10 @@ for (i = 0 , ii = this.rows; i < ii; i++) {
 				for (j = lead , jj = this.cols; j < jj; j++) {
 					matrixCompared++;
 					// TODO
-					console.log(pivot.toString());
-					console.log(longAlgebraicDivision('1', pivot.toString()));
-					rref[i][j].times(1 / pivot);
+					// console.log(pivot.toString());
+					// console.log(longAlgebraicDivision('1', pivot.toString()));
+					rref[i][j] = rref[i][j].times(Polynomial.zero);
+					// rref[i][j] = Polynomial.one / pivot;
 				}
 				for (j = 0 , jj = this.rows; j < jj; j++) {
 					if (j === i) {
