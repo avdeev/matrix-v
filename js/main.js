@@ -26,7 +26,7 @@ $(function() {
       }
 
       M[id] = new MathLib.Matrix(matrixArr);
-      MDiag[id] = M[id].rref();
+      MDiag[id] = M[id].rrefPoly();
 
       $('.js-result').append($('<pre>', {
         text: MDiag[id].toString()

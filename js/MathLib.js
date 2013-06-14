@@ -4544,11 +4544,93 @@ for (i = 0 , ii = this.rows; i < ii; i++) {
 		};
 		Matrix.prototype.rrefPoly = function () {
 			var i, ii, j, jj, k, kk, pivot, factor, swap, lead = 0, rref = this.toArray();
+			var max, imax, jmax, temp, iarr, jarr;
+			iarr = [];
+			jarr = [];
+			var count = 0;
+
+			while (true) {
+				count++;
+				max = new MathLib.Polynomial(100);
+				for (i = 0; i < this.rows; i++) {
+					for (j = 0; j < this.cols; j++) {
+						if (rref[i][j].compare(max) == -1 && !(i in iarr) && !(j in jarr) && rref[i][j].compare(MathLib.Polynomial.zero) == 1) {
+							max = rref[i][j];
+							imax = i;
+							jmax = j;
+						}
+					}
+				}
+
+				if (max.isEqual(new MathLib.Polynomial(100))) break;
+
+				iarr.push(i);
+				jarr.push(j);
+
+				temp = [];
+				for (i = 0; i < this.rows; i++) {
+					temp[i] = [];
+					for (j = 0; j < this.cols; j++) {
+						if (j == jmax) continue;
+						temp[i][j] = rref[i][j];
+						rref[i][j] = rref[i][j].times(rref[imax][jmax]);
+					}
+
+					for (j = 0; j < this.cols; j++) {
+						if (j == jmax) continue;
+						rref[i][j] = rref[i][j].minus(rref[i][jmax].times(temp[i][j]));
+					}
+				}
+
+				for (j = 0; j < this.cols; j++) {
+					for (i = 0; i < this.rows; i++) {
+						if (i == imax) continue;
+						temp[i][j] = rref[i][j];
+						rref[i][j] = rref[i][j].times(rref[imax][jmax]);
+					}
+
+					for (i= 0; i < this.rows; i++) {
+						if (i == imax) continue;
+						rref[i][j] = rref[i][j].minus(rref[imax][j].times(temp[i][j]));
+					}
+				}
+
+				if (count == this.rows - 1) break;
+			}
+
+			temp = [];
 			for (i = 0; i < this.rows; i++) {
 				for (j = 0; j < this.cols; j++) {
-
+					if (rref[i][j].valueAt(999) != 0) {
+						temp.push(rref[i][j]);
+					}
 				}
 			}
+
+			var tempTemp;
+			for (i = 0; i < temp.length; i++) {
+				for (j = 0; j < temp.length - 1; j++) {
+					if (temp[j] > temp[j+1]) {
+						tempTemp = temp[j];
+						temp[j] = temp[j+1];
+						temp[j+1] = tempTemp;	
+					}
+				}
+			}
+
+			var rref2 = [];
+			for (i = 0; i < this.rows; i++) {
+				rref2[i] = [];
+				for (j = 0; j < this.cols; j++) {
+					if (i == j) {
+						rref2[i][j] = temp[i];
+					} else {
+						rref2[i][j] = 0;
+					}
+				}
+			}
+
+			return new MathLib.Matrix(rref2);
 		};
 		Matrix.prototype.rref = function () {
 			var i, ii, j, jj, k, kk, pivot, factor, swap, lead = 0, rref = this.toArray();
@@ -4558,7 +4640,7 @@ for (i = 0 , ii = this.rows; i < ii; i++) {
 					return new MathLib.Matrix(rref);
 				}
 				j = i;
-				while (rref[j][lead].deg == 0 && rref[j][lead][0] == 0) {
+				while (rref[j][lead].isEqual(MathLib.Polynomial.zero)) {
 					matrixCompared++;
 					j++;
 					if (this.rows === j) {
@@ -4578,10 +4660,7 @@ for (i = 0 , ii = this.rows; i < ii; i++) {
 				for (j = lead , jj = this.cols; j < jj; j++) {
 					matrixCompared++;
 					// TODO
-					// console.log(pivot.toString());
-					// console.log(longAlgebraicDivision('1', pivot.toString()));
-					rref[i][j] = rref[i][j].times(Polynomial.zero);
-					// rref[i][j] = Polynomial.one / pivot;
+					rref[i][j] = rref[i][j].times(pivot);
 				}
 				for (j = 0 , jj = this.rows; j < jj; j++) {
 					if (j === i) {
