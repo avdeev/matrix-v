@@ -17,16 +17,16 @@ $(function() {
         matrixArr[y] = [];
         for (var x = 0; x < size; x++) {
           matrixArr[y][x] = parseFloat($matrix.find('.y-' + y + '.x-' + x + ' input').val());
-          if (x == y) {
-            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x], -1]);
-          } else if (x != y) {
-            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x]]);
-          }
+          // if (x == y) {
+          //   matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x], -1]);
+          // } else if (x != y) {
+          //   matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x]]);
+          // }
         }
       }
 
       M[id] = new MathLib.Matrix(matrixArr);
-      MDiag[id] = M[id].rrefPoly();
+      MDiag[id] = M[id].rref();
 
       $('.js-result').append($('<pre>', {
         text: MDiag[id].toString()
