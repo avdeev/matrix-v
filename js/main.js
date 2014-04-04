@@ -16,36 +16,50 @@ $(function() {
         for (var x = 0; x < size; x++) {
           matrixArr[y][x] = parseFloat($matrix.find('.y-' + y + '.x-' + x + ' input').val());
           if (x == y) {
-            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x], -1]);
+            matrixArr[y][x] = new Polynomial([matrixArr[y][x], -1]);
           } else if (x != y) {
-            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x]]);
+            matrixArr[y][x] = new Polynomial([matrixArr[y][x]]);
           }
         }
       }
 
-      Matrix[id] = new MathLib.Matrix(matrixArr);
+      console.log(matrixArr);
+      return;
 
       $('.js-result').append($('<pre>', {
         text: Matrix[id].toString()
       }));
 
-      var min, max;
-      max = MathLib.Polynomial.zero;
-      min = new MathLib.Polynomial(10);
-      Matrix[id].forEach(function(entry) {
+      var max = {
+        value: MathLib.Polynomial.zero,
+        i: 0,
+        j: 0
+      }
+
+      var min = {
+        value: new MathLib.Polynomial(10),
+        i: 0,
+        j: 0
+      }
+
+      Matrix[id].forEach(function(entry, i, j) {
         if (!entry.isEqual(MathLib.Polynomial.zero)) {
-          if (entry.compareAbs(min) < 0) {
-            min = entry;
+          if (entry.compareAbs(min.value) < 0) {
+            min.value = entry;
+            min.i = i;
+            min.j = j;
           }
         }
 
-        if (entry.compareAbs(max) > 0) {
-          max = entry;
+        if (entry.compareAbs(max.value) > 0) {
+          max.value = entry;
+          max.i = i;
+          max.j = j;
         }
       });
 
-      console.log('min', min.toString());
-      console.log('max', max.toString());
+      console.log('min', min);
+      console.log('max', max);
     });
 
   });
