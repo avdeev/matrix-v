@@ -4,7 +4,7 @@
     for ($x = 0; $x < $matrixSize; $x++) {
       echo $this->renderPartial('//shared/cell', array('x' => $x, 'y' => $y));
     }
-    echo "<div class='clearfix'></div>";
-  } 
   ?>
+  <div class='clearfix'></div>
+  <? } ?>
 </div>

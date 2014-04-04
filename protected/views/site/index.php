@@ -8,10 +8,12 @@
 </div>
 <div class="row-fluid">
   <div class="span6 well">
-    <? echo $this->renderPartial('//shared/matrix', array('matrixSize' => $matrixSize, 'id' => 0)); ?>
+    <? $this->renderPartial('//shared/predefined_matrix_1'); ?>
+    <? //$this->renderPartial('//shared/matrix', array('matrixSize' => $matrixSize, 'id' => 0)); ?>
   </div>
   <div class="span6 well">
-    <? echo $this->renderPartial('//shared/matrix', array('matrixSize' => $matrixSize, 'id' => 1)); ?>
+    <? $this->renderPartial('//shared/predefined_matrix_2'); ?>
+    <? // $this->renderPartial('//shared/matrix', array('matrixSize' => $matrixSize, 'id' => 1)); ?>
   </div>
 </div>
 <div class="row-fluid">

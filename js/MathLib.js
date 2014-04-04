@@ -11063,6 +11063,29 @@ var MathLib;
 				return Infinity;
 			}(polynomial));
 		}
+
+		/**
+		* Compares abs two polynomials.
+		*
+		* @param {Polynomial} p The polynomial to compare
+		* @return {number}
+		*/
+		Polynomial.prototype.compareAbs = function (p) {
+			var i, ii;
+
+			if (this.length !== p.length) {
+				return MathLib.sign(this.length - p.length);
+			}
+
+			for (i = 0, ii = this.length; i < ii; i++) {
+				if (Math.abs(p[i]) - Math.abs(this[i])) {
+					return MathLib.sign(Math.abs(this[i]) - Math.abs(p[i]));
+				}
+			}
+
+			return 0;
+		};
+
 		/**
 		* Compares two polynomials.
 		*
@@ -11556,17 +11579,17 @@ var MathLib;
 		* @return {string}
 		*/
 		Polynomial.prototype.toString = function () {
-			var i, str = MathLib.toString(this[this.deg]) + '*x^' + this.deg;
+			var i, str = MathLib.toString(this[this.deg]) + 'x^' + this.deg;
 
 			for (i = this.deg - 1; i >= 0; i--) {
 				if (!MathLib.isZero(this[i])) {
 					str += MathLib.toString(this[i], {sign: true});
 
 					if (i > 1) {
-						str += '*x^' + MathLib.toString(i);
+						str += 'x^' + MathLib.toString(i);
 					}
 					else if (i === 1) {
-						str += '*x';
+						str += 'x';
 					}
 				}
 			}
