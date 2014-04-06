@@ -3,9 +3,6 @@ $(function() {
   $('#js-matrix-check').on('click', function(){
     $('.js-result').empty();
 
-    window.M = [];
-    window.MDiag = [];
-    window.Matrix = [];
     $('.matrix').each(function(){
       var $matrix = $(this);
       var id = parseInt($matrix.data('id'));
@@ -16,20 +13,14 @@ $(function() {
         for (var x = 0; x < size; x++) {
           matrixArr[y][x] = parseFloat($matrix.find('.y-' + y + '.x-' + x + ' input').val());
           if (x == y) {
-            matrixArr[y][x] = new Polynomial([matrixArr[y][x], -1]);
+            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x], -1]);
           } else if (x != y) {
-            matrixArr[y][x] = new Polynomial([matrixArr[y][x]]);
+            matrixArr[y][x] = new MathLib.Polynomial([matrixArr[y][x]]);
           }
         }
       }
 
-      console.log(matrixArr);
-      return;
-
-      $('.js-result').append($('<pre>', {
-        text: Matrix[id].toString()
-      }));
-
+      // ищеи максимум и минимум
       var max = {
         value: MathLib.Polynomial.zero,
         i: 0,
@@ -42,24 +33,43 @@ $(function() {
         j: 0
       }
 
-      Matrix[id].forEach(function(entry, i, j) {
-        if (!entry.isEqual(MathLib.Polynomial.zero)) {
-          if (entry.compareAbs(min.value) < 0) {
-            min.value = entry;
-            min.i = i;
-            min.j = j;
+      _.each(matrixArr, function(arr, i) {
+        _.each(arr, function(entry, j) {
+          if (!entry.isEqual(MathLib.Polynomial.zero)) {
+            if (entry.compareAbs(min.value) < 0) {
+              min.value = entry;
+              min.i = i;
+              min.j = j;
+            }
           }
-        }
 
-        if (entry.compareAbs(max.value) > 0) {
-          max.value = entry;
-          max.i = i;
-          max.j = j;
-        }
+          if (entry.compareAbs(max.value) > 0) {
+            max.value = entry;
+            max.i = i;
+            max.j = j;
+          }
+        });
       });
 
-      console.log('min', min);
-      console.log('max', max);
+      // ставим минимальный элемент в 1,1
+      if (min.i > 0) {
+        var swap = matrixArr[0];
+        matrixArr[0] = matrixArr[min.i];
+        matrixArr[min.i] = swap;
+      }
+
+      if (min.j > 0) {
+        _.each(matrixArr, function(arr, i) {
+          var swap = matrixArr[i][0];
+          matrixArr[i][0] = matrixArr[i][min.j];
+          matrixArr[i][min.j] = swap;
+        });
+      }
+
+      console.log(matrixArr, 'arr');
+
+      return false;
+
     });
 
   });

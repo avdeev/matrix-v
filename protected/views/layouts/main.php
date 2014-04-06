@@ -19,7 +19,6 @@
     </style>
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
-    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -54,6 +53,7 @@
     <script src="/js/Polynomial.js"></script>
     <script src="/js/plugins.js"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/underscore-min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/tests.js"></script>
   </body>
