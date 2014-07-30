@@ -66,7 +66,15 @@ $(function() {
         });
       }
 
-      console.log(matrixArr, 'arr');
+      _.each(matrixArr, function(arr, i) {
+        _.each(arr, function(entry, j) {
+          console.log(syntheticDivision(entry.slice().reverse(), -matrixArr[0][0].slice(0)[0]));
+        });
+      });
+
+      $('.js-result').append($('<pre>', {
+        text: new MathLib.Matrix(matrixArr).toString()
+      }));
 
       return false;
 

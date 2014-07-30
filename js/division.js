@@ -1,4 +1,5 @@
 function longAlgebraicDivision(poly, division) {
+  console.log(poly, division);
   //Format the equations correctly
   poly = poly.replace(/(--|\+\+)/g, "+");
   poly = poly.replace(/(-\+|\+-)/g, "-");
@@ -36,13 +37,16 @@ function longAlgebraicDivision(poly, division) {
   output = output.replace(/x\^1/g, "x");
   //Calculate remainder
   lastTerm = lastTerm.replace(/x\^0/g, "");
-  output += " : Remainder [" + String(Number(equ[equ.length-1]) - Number(lastTerm)) + "]";
-  return output;
+  return {
+    output: output,
+    remainder: String(Number(equ[equ.length-1]) - Number(lastTerm))
+  }
 }
 
 //Used to break an { ax^n } into its compontents
 function extractCompontents(Term, constantChar) {
   var Comps = new Array();
+  console.log('Term', Term);
   Comps[0] = Term.split(constantChar)[0];
   Comps[1] = Term.split("^")[1];
   if(Comps[0] == "") { Comps[0]=1; }
@@ -63,4 +67,16 @@ function subtractTerm(Term1, Term2, constantChar) {
   var extTerm2 = extractCompontents(Term2, constantChar)
   if(extTerm1[1] != extTerm2[1]) { return null; }
   return String(extTerm1[0]-extTerm2[0]) + constantChar + "^" + String(extTerm1[1]);
+}
+
+var syntheticDivision = function(polynomial, divisor) { 
+  var result   = polynomial[0]; 
+  var quotient = [result];   
+  for (i = 1; i < polynomial.length; i++) { 
+    result *= divisor; 
+    result += polynomial[i]; 
+    quotient.push(result); 
+  } 
+  var remainder = quotient.pop(); 
+  return {'quotient': quotient, 'remainder': remainder}; 
 }
